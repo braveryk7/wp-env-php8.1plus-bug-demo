@@ -30,3 +30,9 @@ jobs:
 
       - name: Start wp-env
         run: npm run wp-env start
+
+      - name: Check wordpress container PHP version
+        run: npm run wp-env run wordpress -- php -v
+
+      - name: Check cli container PHP version
+        run: npm run wp-env run cli -- php -v
