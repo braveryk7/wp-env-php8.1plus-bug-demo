@@ -1,0 +1,32 @@
+name: wp-env bug test for PHP8.0 workflow
+
+on: 
+  push:
+
+env:
+  PHP_VERSION: "8.0"
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Generate .wp-env.override.json
+        run: |
+          echo '{ "phpVersion": "${{ env.PHP_VERSION }}" }' > .wp-env.override.json
+
+      - name: Check .wp-env.override.json
+        run: cat .wp-env.override.json
+
+      - name: Start wp-env
+        run: npm run wp-env start
